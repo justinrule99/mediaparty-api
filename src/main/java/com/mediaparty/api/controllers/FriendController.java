@@ -25,6 +25,7 @@ public class FriendController {
     UserRepository userRepository;
 
     @Operation(summary = "Create a pending friendship between two users")
+    @CrossOrigin
     @PostMapping("/add-friend/{username1}/{username2}")
     public @ResponseBody
     Friend addFriend (@PathVariable("username1") String username1, @PathVariable("username2") String username2) {
@@ -64,6 +65,7 @@ public class FriendController {
     }
 
     @Operation(summary = "Accept a pending friend request")
+    @CrossOrigin
     @PutMapping("/accept-friend/{username1}/{username2}")
     public Friend updateFriend(@PathVariable("username1") String username1, @PathVariable("username2") String username2) {
         User user1 = userRepository.findByUsername(username1);
@@ -79,6 +81,7 @@ public class FriendController {
     }
 
     @Operation(summary = "Delete a friend relationship between two users")
+    @CrossOrigin
     @DeleteMapping("/remove-friend/{username1}/{username2}")
     public String deleteFriend(@PathVariable("username1") String username1, @PathVariable("username2") String username2) {
 
@@ -98,6 +101,7 @@ public class FriendController {
     }
 
     @Operation(summary = "Get all friends for one user")
+    @CrossOrigin
     @GetMapping("/{username}/get-friends")
     public List<Friend> getFriends(@PathVariable("username") String username) {
 

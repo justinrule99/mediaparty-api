@@ -25,12 +25,14 @@ public class WatchSessionController {
     PlaylistRepository playlistRepository;
 
     @Operation(summary = "Get the session information")
+    @CrossOrigin
     @GetMapping("/get-session/{sessionId}")
     public WatchSession getSession(@PathVariable("sessionId") long id) {
         return sessionRepository.findBySessionId(id);
     }
 
     @Operation(summary = "Create a new session")
+    @CrossOrigin
     @PostMapping("/create-session")
     public @ResponseBody
     WatchSession createSession(@RequestBody WatchSession session) {
@@ -42,6 +44,18 @@ public class WatchSessionController {
 
         sessionRepository.save(session);
         return session;
+    }
+
+    @Operation(summary = "Delete a session")
+    @DeleteMapping("/delete-session/{sessionId}")
+    @CrossOrigin
+    public String endSession(@PathVariable("sessionId") long id) {
+        WatchSession check = sessionRepository.findBySessionId(id);
+        if (check == null) {
+            return "Session not found.";
+        }
+        sessionRepository.deleteSessionBySessionId(id);
+        return "Session deleted successfully.";
     }
 
     @Operation(summary = "Update a session's information")
@@ -59,17 +73,6 @@ public class WatchSessionController {
         newSession.setTimestamp(session.getTimestamp());
 
         return newSession;
-    }
-
-    @Operation(summary = "Delete a session")
-    @DeleteMapping("/delete-session/{sessionId}")
-    public String endSession(@PathVariable("sessionId") long id) {
-        WatchSession check = sessionRepository.findBySessionId(id);
-        if (check == null) {
-            return "Session not found.";
-        }
-        sessionRepository.deleteSessionBySessionId(id);
-        return "Session deleted successfully.";
     }
     @Operation(summary = "Get a session's previously watched video")
     @GetMapping("/get-prev-watched/{sessionId}")

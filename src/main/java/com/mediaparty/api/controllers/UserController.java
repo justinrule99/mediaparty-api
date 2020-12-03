@@ -18,6 +18,7 @@ public class UserController {
     UserRepository userRepository;
 
     @Operation(summary = "Create a new user based on username, password, and email")
+    @CrossOrigin
     @PostMapping("/create-user")
     public @ResponseBody User addNewUser (@RequestBody User body) {
         // make object of model type and save in db with userRepository.save()
@@ -33,6 +34,7 @@ public class UserController {
     }
 
     @Operation(summary = "Attempt to login a user given a username and password")
+    @CrossOrigin
     @PostMapping("/login")
     public @ResponseBody User loginUser(@RequestBody User body) {
         User validate = userRepository.findByUsername(body.getUsername());
